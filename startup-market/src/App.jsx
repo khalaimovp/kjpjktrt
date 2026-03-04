@@ -1036,25 +1036,33 @@ export default function App() {
 
       {/* Bottom Nav */}
       <div className="fixed bottom-0 left-0 right-0 z-50"
-        style={{ maxWidth: "430px", left: "50%", transform: "translateX(-50%)", paddingBottom: "env(safe-area-inset-bottom, 6px)" }}>
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 4px)" }}>
         <div style={{
           background: "#0f172a",
           borderTop: "1px solid rgba(148,163,184,0.15)",
-          padding: "10px 8px 8px"
+          padding: "8px 4px 6px",
+          maxWidth: "430px",
+          margin: "0 auto"
         }}>
-          <div className="flex">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {TABS.map(item => {
               const active = tab === item.key;
               return (
                 <button key={item.key} onClick={() => setTab(item.key)}
-                  className="flex-1 flex flex-col items-center justify-center gap-1"
-                  style={{ padding: "6px 0", background: "none", border: "none", cursor: "pointer" }}>
+                  style={{
+                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                    gap: "3px", padding: "6px 2px", background: "none", border: "none", cursor: "pointer",
+                    WebkitTapHighlightColor: "transparent"
+                  }}>
                   {item.icon(active)}
                   <span style={{
-                    fontSize: "11px",
+                    fontSize: "10px",
                     fontWeight: active ? 600 : 400,
                     color: active ? "#c7d2fe" : "#64748b",
-                    letterSpacing: "0.01em"
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: "100%"
                   }}>{item.label}</span>
                 </button>
               );
