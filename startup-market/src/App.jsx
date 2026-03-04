@@ -922,10 +922,10 @@ export default function App() {
   );
 
   const TABS = [
-    { key: "startups", icon: "🚀", label: "Стартапы" },
-    { key: "investors", icon: "💼", label: "Инвесторы" },
-    { key: "analytics", icon: "📊", label: "Аналитика" },
-    { key: "profile", icon: "👤", label: "Профиль" },
+    { key: "startups", label: "Стартапы", icon: (active) => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? "#818cf8" : "#64748b"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.29-1.5 3.5-1.5 3.5s2.21 0 3.5-1.5c.74-.82.74-2.17 0-3 0 0-1.18 0-2 1z"/><path d="M12 13c-1.94-2.03-2.07-5.27 0-7.5C14.07 7.73 13.94 10.97 12 13z"/><path d="M12 13c2.03-1.94 5.27-2.07 7.5 0-2.23 2.07-5.47 1.94-7.5 0z"/><path d="M12 13c-2.03-1.94-5.27-2.07-7.5 0 2.23 2.07 5.47 1.94 7.5 0z"/><path d="M12 13V21"/></svg> },
+    { key: "investors", label: "Инвесторы", icon: (active) => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? "#818cf8" : "#64748b"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> },
+    { key: "analytics", label: "Аналитика", icon: (active) => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? "#818cf8" : "#64748b"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg> },
+    { key: "profile", label: "Профиль", icon: (active) => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? "#818cf8" : "#64748b"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> },
   ];
 
   return (
@@ -1036,28 +1036,29 @@ export default function App() {
 
       {/* Bottom Nav */}
       <div className="fixed bottom-0 left-0 right-0 z-50"
-        style={{ maxWidth: "430px", left: "50%", transform: "translateX(-50%)", paddingBottom: "env(safe-area-inset-bottom, 8px)" }}>
-        <div style={{ background: "linear-gradient(to bottom, rgba(15,23,42,0.0), rgba(15,23,42,0.9) 30%)", height: "16px" }} />
-        <div style={{ background: "rgba(15,23,42,0.98)", borderTop: "1px solid rgba(99,102,241,0.25)", backdropFilter: "blur(12px)" }}>
-          <div className="flex px-2 py-2">
-            {TABS.map(item => (
-              <button key={item.key} onClick={() => setTab(item.key)}
-                className="flex-1 flex flex-col items-center justify-center gap-1.5 py-2.5 rounded-2xl transition-all"
-                style={tab === item.key ? {
-                  background: "linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.15))",
-                  border: "1px solid rgba(99,102,241,0.3)",
-                  color: "#fff",
-                  boxShadow: "0 0 12px rgba(99,102,241,0.15)"
-                } : {
-                  background: "transparent",
-                  border: "1px solid transparent",
-                  color: "rgba(148,163,184,0.6)"
-                }}>
-                <span className="text-xl leading-none">{item.icon}</span>
-                <span style={{ fontSize: "10px", fontWeight: tab === item.key ? 600 : 500, letterSpacing: "0.02em" }}>{item.label}</span>
-                {tab === item.key && <div style={{ width: "16px", height: "2px", borderRadius: "1px", background: "linear-gradient(90deg, #6366f1, #8b5cf6)", marginTop: "-2px" }} />}
-              </button>
-            ))}
+        style={{ maxWidth: "430px", left: "50%", transform: "translateX(-50%)", paddingBottom: "env(safe-area-inset-bottom, 6px)" }}>
+        <div style={{
+          background: "#0f172a",
+          borderTop: "1px solid rgba(148,163,184,0.15)",
+          padding: "10px 8px 8px"
+        }}>
+          <div className="flex">
+            {TABS.map(item => {
+              const active = tab === item.key;
+              return (
+                <button key={item.key} onClick={() => setTab(item.key)}
+                  className="flex-1 flex flex-col items-center justify-center gap-1"
+                  style={{ padding: "6px 0", background: "none", border: "none", cursor: "pointer" }}>
+                  {item.icon(active)}
+                  <span style={{
+                    fontSize: "11px",
+                    fontWeight: active ? 600 : 400,
+                    color: active ? "#c7d2fe" : "#64748b",
+                    letterSpacing: "0.01em"
+                  }}>{item.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
