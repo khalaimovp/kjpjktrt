@@ -929,7 +929,7 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white" style={{ maxWidth: "430px", margin: "0 auto", position: "relative" }}>
+    <div className="min-h-screen bg-slate-950 text-white pb-24" style={{ maxWidth: "430px", margin: "0 auto", position: "relative" }}>
       {/* Header */}
       <div className="sticky top-0 z-10 bg-slate-950/95 backdrop-blur-sm border-b border-slate-800/50 px-4 py-3">
         <div className="flex items-center justify-between">
@@ -1035,16 +1035,30 @@ export default function App() {
       </div>
 
       {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 right-0 z-10 bg-slate-900/95 backdrop-blur-sm border-t border-slate-800/50"
-        style={{ maxWidth: "430px", left: "50%", transform: "translateX(-50%)" }}>
-        <div className="flex px-2 py-1.5">
-          {TABS.map(item => (
-            <button key={item.key} onClick={() => setTab(item.key)}
-              className={`flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl transition-all ${tab === item.key ? "text-white bg-slate-800/60" : "text-slate-500 hover:text-slate-300"}`}>
-              <span className="text-xl leading-none">{item.icon}</span>
-              <span className="text-xs font-medium">{item.label}</span>
-            </button>
-          ))}
+      <div className="fixed bottom-0 left-0 right-0 z-50"
+        style={{ maxWidth: "430px", left: "50%", transform: "translateX(-50%)", paddingBottom: "env(safe-area-inset-bottom, 8px)" }}>
+        <div style={{ background: "linear-gradient(to bottom, rgba(15,23,42,0.0), rgba(15,23,42,0.9) 30%)", height: "16px" }} />
+        <div style={{ background: "rgba(15,23,42,0.98)", borderTop: "1px solid rgba(99,102,241,0.25)", backdropFilter: "blur(12px)" }}>
+          <div className="flex px-2 py-2">
+            {TABS.map(item => (
+              <button key={item.key} onClick={() => setTab(item.key)}
+                className="flex-1 flex flex-col items-center justify-center gap-1.5 py-2.5 rounded-2xl transition-all"
+                style={tab === item.key ? {
+                  background: "linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.15))",
+                  border: "1px solid rgba(99,102,241,0.3)",
+                  color: "#fff",
+                  boxShadow: "0 0 12px rgba(99,102,241,0.15)"
+                } : {
+                  background: "transparent",
+                  border: "1px solid transparent",
+                  color: "rgba(148,163,184,0.6)"
+                }}>
+                <span className="text-xl leading-none">{item.icon}</span>
+                <span style={{ fontSize: "10px", fontWeight: tab === item.key ? 600 : 500, letterSpacing: "0.02em" }}>{item.label}</span>
+                {tab === item.key && <div style={{ width: "16px", height: "2px", borderRadius: "1px", background: "linear-gradient(90deg, #6366f1, #8b5cf6)", marginTop: "-2px" }} />}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
