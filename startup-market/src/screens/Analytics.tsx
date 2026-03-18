@@ -61,13 +61,6 @@ function ClockIcon({ className = "" }: IconProps) {
 /*  Static data                                                        */
 /* ------------------------------------------------------------------ */
 
-const KPI_CARDS = [
-  { value: "247",  label: "Стартапов",  sub: "+23",  color: "indigo" },
-  { value: "89",   label: "Инвесторов", sub: "+12",  color: "cyan"   },
-  { value: "312",  label: "Коннектов",  sub: "+47",  color: "emerald" },
-  { value: "$18M", label: "Средний раунд", sub: "+15%", color: "amber" },
-];
-
 const LABEL_COLORS: Record<string, string> = {
   indigo:  "text-indigo-400",
   cyan:    "text-cyan-400",
@@ -77,12 +70,67 @@ const LABEL_COLORS: Record<string, string> = {
 
 const PERIODS = ["Неделя", "Месяц", "Год"];
 
-const ANALYTICS_SECTORS = [
-  { name: "AI / ML",     pct: 28, count: 69,  growth: "+18%", color: "#6366f1" },
-  { name: "FinTech",     pct: 21, count: 52,  growth: "+9%",  color: "#06b6d4" },
-  { name: "MedTech",     pct: 17, count: 42,  growth: "+24%", color: "#f43f5e" },
-  { name: "GreenTech",   pct: 14, count: 35,  growth: "+67%", color: "#10b981" },
-  { name: "Остальное",   pct: 20, count: 49,  growth: "+5%",  color: "#f59e0b" },
+const PERIOD_DATA = [
+  // index 0: Неделя
+  {
+    heroValue: "$12M",
+    heroSub: "+$2.1M за неделю",
+    heroLabel: "Привлечено за неделю",
+    kpis: [
+      { value: "18",  label: "Стартапов",    sub: "+4",   color: "indigo" },
+      { value: "7",   label: "Инвесторов",   sub: "+2",   color: "cyan"   },
+      { value: "23",  label: "Коннектов",    sub: "+8",   color: "emerald" },
+      { value: "$2.1M", label: "Средний раунд", sub: "+5%",  color: "amber" },
+    ],
+    sectors: [
+      { name: "AI / ML",     pct: 32, count: 6,  growth: "+3%", color: "#6366f1" },
+      { name: "FinTech",     pct: 24, count: 4,  growth: "+1%", color: "#06b6d4" },
+      { name: "MedTech",     pct: 18, count: 3,  growth: "+5%", color: "#f43f5e" },
+      { name: "GreenTech",   pct: 12, count: 2,  growth: "+12%", color: "#10b981" },
+      { name: "Остальное",   pct: 14, count: 3,  growth: "+1%", color: "#f59e0b" },
+    ],
+    totalStartups: 18,
+  },
+  // index 1: Месяц
+  {
+    heroValue: "$48M",
+    heroSub: "+$8M за месяц",
+    heroLabel: "Привлечено за месяц",
+    kpis: [
+      { value: "247",  label: "Стартапов",    sub: "+23",  color: "indigo" },
+      { value: "89",   label: "Инвесторов",   sub: "+12",  color: "cyan"   },
+      { value: "312",  label: "Коннектов",    sub: "+47",  color: "emerald" },
+      { value: "$18M", label: "Средний раунд", sub: "+15%", color: "amber" },
+    ],
+    sectors: [
+      { name: "AI / ML",     pct: 28, count: 69,  growth: "+18%", color: "#6366f1" },
+      { name: "FinTech",     pct: 21, count: 52,  growth: "+9%",  color: "#06b6d4" },
+      { name: "MedTech",     pct: 17, count: 42,  growth: "+24%", color: "#f43f5e" },
+      { name: "GreenTech",   pct: 14, count: 35,  growth: "+67%", color: "#10b981" },
+      { name: "Остальное",   pct: 20, count: 49,  growth: "+5%",  color: "#f59e0b" },
+    ],
+    totalStartups: 247,
+  },
+  // index 2: Год
+  {
+    heroValue: "$420M",
+    heroSub: "+$120M за год",
+    heroLabel: "Привлечено за год",
+    kpis: [
+      { value: "1 847", label: "Стартапов",    sub: "+312", color: "indigo" },
+      { value: "534",   label: "Инвесторов",   sub: "+89",  color: "cyan"   },
+      { value: "4 210", label: "Коннектов",    sub: "+890", color: "emerald" },
+      { value: "$22M",  label: "Средний раунд", sub: "+28%", color: "amber" },
+    ],
+    sectors: [
+      { name: "AI / ML",     pct: 31, count: 573,  growth: "+45%", color: "#6366f1" },
+      { name: "FinTech",     pct: 22, count: 407,  growth: "+22%", color: "#06b6d4" },
+      { name: "MedTech",     pct: 16, count: 296,  growth: "+38%", color: "#f43f5e" },
+      { name: "GreenTech",   pct: 15, count: 277,  growth: "+120%", color: "#10b981" },
+      { name: "Остальное",   pct: 16, count: 294,  growth: "+12%",  color: "#f59e0b" },
+    ],
+    totalStartups: 1847,
+  },
 ];
 
 const TRENDS = [
@@ -118,6 +166,16 @@ const TRENDS = [
 
 export default function Analytics() {
   const [activePeriod, setActivePeriod] = useState(1); // default "Месяц"
+  const period = PERIOD_DATA[activePeriod];
+
+  /* Build conic-gradient dynamically from period sectors */
+  const conicStops = period.sectors.reduce<string[]>((acc, s, i) => {
+    const start = period.sectors.slice(0, i).reduce((sum, prev) => sum + prev.pct, 0);
+    const end = start + s.pct;
+    acc.push(`${s.color} ${start}% ${end}%`);
+    return acc;
+  }, []);
+  const conicGradient = `conic-gradient(${conicStops.join(", ")})`;
 
   return (
     <div className="min-h-screen bg-zinc-950 px-4 pt-6 pb-24 relative overflow-hidden">
@@ -134,17 +192,17 @@ export default function Analytics() {
         <GlassCard className="p-6 bg-gradient-to-br from-indigo-500/10 to-cyan-500/5 animate-slide-up stagger-1">
           <div className="flex items-center gap-2 mb-3">
             <TrendUpIcon className="text-emerald-400" />
-            <span className="text-emerald-400 text-sm font-medium">+$8M за месяц</span>
+            <span className="text-emerald-400 text-sm font-medium">{period.heroSub}</span>
           </div>
           <p className="text-6xl font-heading font-black text-white animate-count-up leading-none mb-2">
-            $48M
+            {period.heroValue}
           </p>
-          <p className="text-zinc-400 text-sm">Привлечено за месяц</p>
+          <p className="text-zinc-400 text-sm">{period.heroLabel}</p>
         </GlassCard>
 
         {/* ---- KPI Grid 2x2 ---- */}
         <div className="grid grid-cols-2 gap-3 animate-slide-up stagger-2">
-          {KPI_CARDS.map((kpi) => (
+          {period.kpis.map((kpi) => (
             <GlassCard key={kpi.label} className="p-4 flex flex-col gap-1.5">
               <span className="text-3xl font-bold text-white font-heading">
                 {kpi.value}
@@ -162,9 +220,9 @@ export default function Analytics() {
         {/* ---- Period Switcher ---- */}
         <div className="animate-slide-up stagger-3">
           <GlassCard className="p-1.5 flex gap-1" role="tablist" aria-label="Период аналитики">
-            {PERIODS.map((period, i) => (
+            {PERIODS.map((label, i) => (
               <button
-                key={period}
+                key={label}
                 type="button"
                 role="tab"
                 aria-selected={activePeriod === i}
@@ -175,7 +233,7 @@ export default function Analytics() {
                     : "text-zinc-500 hover:text-zinc-300"
                 }`}
               >
-                {period}
+                {label}
               </button>
             ))}
           </GlassCard>
@@ -196,8 +254,7 @@ export default function Analytics() {
                   style={{
                     width: 160,
                     height: 160,
-                    background:
-                      "conic-gradient(#6366f1 0% 28%, #06b6d4 28% 49%, #f43f5e 49% 66%, #10b981 66% 80%, #f59e0b 80% 100%)",
+                    background: conicGradient,
                   }}
                   role="img"
                   aria-label="Круговая диаграмма распределения по секторам"
@@ -208,13 +265,13 @@ export default function Analytics() {
                   style={{ width: 90, height: 90 }}
                   aria-hidden="true"
                 >
-                  <span className="font-heading font-bold text-white text-lg">247</span>
+                  <span className="font-heading font-bold text-white text-lg">{period.totalStartups}</span>
                 </div>
               </div>
 
               {/* Legend */}
               <div className="flex flex-col gap-2.5 min-w-0 flex-1">
-                {ANALYTICS_SECTORS.map((s) => (
+                {period.sectors.map((s) => (
                   <div key={s.name} className="flex items-center gap-2">
                     <span
                       className="w-2.5 h-2.5 rounded-full flex-shrink-0"

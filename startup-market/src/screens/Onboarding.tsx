@@ -196,17 +196,20 @@ function RoleSelection({ onSelect }: RoleSelectionProps) {
 
 interface FormStepsProps {
   role: Role;
+  defaultName?: string;
   onComplete: (userData: UserData) => void;
   onBack: () => void;
 }
 
-function FormSteps({ role, onComplete, onBack }: FormStepsProps) {
+function FormSteps({ role, defaultName, onComplete, onBack }: FormStepsProps) {
   const fields = role === "investor" ? investorFields : startupFields;
   const totalSteps = fields.length;
   const roleLabel = role === "investor" ? "Регистрация инвестора" : "Регистрация основателя";
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [form, setForm] = useState<Record<string, string>>({});
+  const [form, setForm] = useState<Record<string, string>>(
+    defaultName ? { name: defaultName } : {}
+  );
   // Key that forces remount of the animated wrapper on each step transition
   const [animKey, setAnimKey] = useState(0);
 
@@ -364,9 +367,10 @@ function FormSteps({ role, onComplete, onBack }: FormStepsProps) {
 
 interface OnboardingProps {
   onComplete: (userData: UserData) => void;
+  defaultName?: string;
 }
 
-export default function Onboarding({ onComplete }: OnboardingProps) {
+export default function Onboarding({ onComplete, defaultName }: OnboardingProps) {
   const [step, setStep] = useState(0);   // 0 = role selection, 1 = form steps
   const [role, setRole] = useState<Role | null>(null);
 
@@ -391,6 +395,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   return (
     <FormSteps
       role={role!}
+      defaultName={defaultName}
       onComplete={handleFormComplete}
       onBack={handleBackToRole}
     />

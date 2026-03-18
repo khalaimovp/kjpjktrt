@@ -151,7 +151,7 @@ export default function StartupCatalog({
   const rest = filteredStartups.length > 1 ? filteredStartups.slice(1) : [];
 
   return (
-    <div className="pb-24">
+    <div className="">
       {/* -------- Search + Filter Toggle -------- */}
       <div className="px-4 pt-4 pb-2">
         <div className="flex items-center gap-2">
@@ -161,7 +161,7 @@ export default function StartupCatalog({
               <SearchIcon />
             </div>
             <input
-              type="text"
+              type="search"
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
               placeholder="Поиск по имени, сектору, тегу..."
@@ -302,7 +302,7 @@ export default function StartupCatalog({
           <h2 className="text-white text-base font-bold font-heading">
             Все стартапы
           </h2>
-          {rest.map((startup, i) => (
+          {rest.slice(1).map((startup, i) => (
             <StartupCard
               key={startup.id}
               startup={startup}

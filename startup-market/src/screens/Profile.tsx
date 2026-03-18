@@ -152,19 +152,139 @@ function StartupAbout({ user }: { user: UserData }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Placeholder for unimplemented tabs                                 */
+/*  Activity feed tab                                                  */
 /* ------------------------------------------------------------------ */
 
-function ComingSoon() {
+function ActivityFeed() {
+  const activities = [
+    {
+      icon: "\u{1F441}\uFE0F",
+      text: "Вы просмотрели NeuroPay",
+      time: "2 часа назад",
+      color: "bg-indigo-500/10 border-indigo-500/20",
+    },
+    {
+      icon: "\u{1F4AC}",
+      text: "Запрос контакта отправлен GreenRoute",
+      time: "5 часов назад",
+      color: "bg-cyan-500/10 border-cyan-500/20",
+    },
+    {
+      icon: "\u2B50",
+      text: "MedScan AI добавлен в избранное",
+      time: "Вчера",
+      color: "bg-amber-500/10 border-amber-500/20",
+    },
+    {
+      icon: "\u{1F4CA}",
+      text: "Вы посмотрели аналитику рынка",
+      time: "Вчера",
+      color: "bg-emerald-500/10 border-emerald-500/20",
+    },
+    {
+      icon: "\u{1F441}\uFE0F",
+      text: "Вы просмотрели EduFlow",
+      time: "2 дня назад",
+      color: "bg-indigo-500/10 border-indigo-500/20",
+    },
+    {
+      icon: "\u{1F4AC}",
+      text: "Запрос контакта отправлен CyberShield",
+      time: "3 дня назад",
+      color: "bg-cyan-500/10 border-cyan-500/20",
+    },
+    {
+      icon: "\u2705",
+      text: "Профиль заполнен на 100%",
+      time: "Неделю назад",
+      color: "bg-emerald-500/10 border-emerald-500/20",
+    },
+    {
+      icon: "\u{1F680}",
+      text: "Вы зарегистрировались на платформе",
+      time: "2 недели назад",
+      color: "bg-violet-500/10 border-violet-500/20",
+    },
+  ];
+
   return (
-    <div className="flex flex-col items-center justify-center py-16 animate-slide-up">
-      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-4">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-zinc-600">
-          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M12 8V12L15 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-      <p className="text-zinc-500 text-sm font-medium">Скоро</p>
+    <div className="flex flex-col gap-3 animate-slide-up">
+      {activities.map((activity, i) => (
+        <GlassCard key={i} className="p-4 flex items-start gap-3">
+          <span
+            className={`flex-shrink-0 w-10 h-10 rounded-xl ${activity.color} border flex items-center justify-center text-lg`}
+          >
+            {activity.icon}
+          </span>
+          <div className="flex-1 min-w-0">
+            <p className="text-zinc-200 text-sm">{activity.text}</p>
+            <p className="text-zinc-500 text-xs mt-0.5">{activity.time}</p>
+          </div>
+        </GlassCard>
+      ))}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Settings panel tab                                                 */
+/* ------------------------------------------------------------------ */
+
+function SettingsPanel() {
+  const [notifications, setNotifications] = useState(true);
+  const [emailNews, setEmailNews] = useState(false);
+  const [darkTheme, setDarkTheme] = useState(true);
+
+  const toggles = [
+    { label: "Уведомления", value: notifications, toggle: () => setNotifications(v => !v) },
+    { label: "Email-рассылка", value: emailNews, toggle: () => setEmailNews(v => !v) },
+    { label: "Тёмная тема", value: darkTheme, toggle: () => setDarkTheme(v => !v) },
+  ];
+
+  return (
+    <div className="flex flex-col gap-3 animate-slide-up">
+      <GlassCard className="p-5 flex flex-col gap-4">
+        {toggles.map((t, i) => (
+          <div key={t.label}>
+            {i > 0 && <div className="w-full h-px bg-white/10 mb-4" />}
+            <div className="flex items-center justify-between">
+              <span className="text-zinc-200 text-sm">{t.label}</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={t.value}
+                onClick={t.toggle}
+                className={`w-11 h-6 rounded-full flex items-center px-0.5 transition-colors ${
+                  t.value ? "bg-indigo-500/30" : "bg-white/10"
+                }`}
+              >
+                <div className={`w-5 h-5 rounded-full transition-all ${
+                  t.value ? "bg-indigo-400 ml-auto" : "bg-zinc-500"
+                }`} />
+              </button>
+            </div>
+          </div>
+        ))}
+      </GlassCard>
+
+      <GlassCard className="p-5 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <span className="text-zinc-200 text-sm">Язык</span>
+          <span className="text-zinc-400 text-sm">Русский</span>
+        </div>
+        <div className="w-full h-px bg-white/10" />
+        <div className="flex items-center justify-between">
+          <span className="text-zinc-200 text-sm">Версия</span>
+          <span className="text-zinc-400 text-sm">1.0.0</span>
+        </div>
+      </GlassCard>
+
+      <button
+        type="button"
+        className="w-full border border-rose-500/20 bg-rose-500/10 text-rose-400 rounded-2xl py-3.5 text-sm font-medium transition-all hover:bg-rose-500/15 active:scale-[0.98]"
+      >
+        Выйти из аккаунта
+      </button>
     </div>
   );
 }
@@ -247,8 +367,8 @@ export default function Profile({ user, onEdit }: ProfileProps) {
         <div className="animate-slide-up stagger-3" role="tabpanel">
           {activeTab === 0 && role === "investor" && <InvestorAbout user={user} />}
           {activeTab === 0 && role !== "investor" && <StartupAbout user={user} />}
-          {activeTab === 1 && <ComingSoon />}
-          {activeTab === 2 && <ComingSoon />}
+          {activeTab === 1 && <ActivityFeed />}
+          {activeTab === 2 && <SettingsPanel />}
         </div>
 
         {/* ---- Edit Button ---- */}

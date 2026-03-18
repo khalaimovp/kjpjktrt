@@ -47,7 +47,7 @@ export default function StartupDetail({ startup, onBack, onContact }: StartupDet
         <section className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-5 overflow-hidden animate-slide-up stagger-1">
           {/* Aurora blobs */}
           <div className="absolute w-40 h-40 rounded-full bg-indigo-500/10 blur-[60px] -top-10 -right-10 pointer-events-none" />
-          <div className="absolute w-32 h-32 rounded-full bg-cyan-500/8 blur-[50px] -bottom-8 -left-8 pointer-events-none" />
+          <div className="absolute w-32 h-32 rounded-full bg-cyan-500/10 blur-[50px] -bottom-8 -left-8 pointer-events-none" />
 
           <div className="relative flex items-start gap-4">
             <img src={s.logo} alt={s.name} loading="lazy" className="w-16 h-16 rounded-2xl object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -151,7 +151,7 @@ export default function StartupDetail({ startup, onBack, onContact }: StartupDet
           <h3 className="text-zinc-400 text-xs font-semibold uppercase tracking-wider mb-3">Материалы</h3>
           <div className="flex gap-3">
             {s.deck && (
-              <button type="button" className="flex-1 bg-gradient-to-br from-indigo-500/20 to-indigo-500/5 border border-indigo-500/20 rounded-2xl p-4 flex flex-col items-center gap-2 active:scale-[0.98] transition-transform" aria-label="Скачать Pitch Deck">
+              <button type="button" onClick={() => alert("Pitch Deck скоро будет доступен")} className="flex-1 bg-gradient-to-br from-indigo-500/20 to-indigo-500/5 border border-indigo-500/20 rounded-2xl p-4 flex flex-col items-center gap-2 active:scale-[0.98] transition-transform" aria-label="Скачать Pitch Deck">
                 <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-lg" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-indigo-300" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -163,7 +163,7 @@ export default function StartupDetail({ startup, onBack, onContact }: StartupDet
               </button>
             )}
             {s.video && (
-              <button type="button" className="flex-1 bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 border border-cyan-500/20 rounded-2xl p-4 flex flex-col items-center gap-2 active:scale-[0.98] transition-transform" aria-label="Смотреть видео-питч">
+              <button type="button" onClick={() => alert("Видео-питч скоро будет доступен")} className="flex-1 bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 border border-cyan-500/20 rounded-2xl p-4 flex flex-col items-center gap-2 active:scale-[0.98] transition-transform" aria-label="Смотреть видео-питч">
                 <div className="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-lg" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cyan-300" strokeLinecap="round" strokeLinejoin="round">
                     <polygon points="5 3 19 12 5 21 5 3" />

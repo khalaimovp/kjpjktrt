@@ -1,5 +1,6 @@
 import { useState, useCallback, lazy, Suspense } from "react";
 import { MOCK_STARTUPS, MOCK_INVESTORS, SECTORS, STAGES } from "./data/mockData";
+import { useTelegramAuth } from "./hooks/useTelegramAuth";
 import Onboarding from "./screens/Onboarding";
 import StartupCatalog from "./screens/StartupCatalog";
 import BottomNav from "./components/BottomNav";
@@ -71,6 +72,7 @@ const TABS: TabDef[] = [
 ];
 
 export default function App() {
+  const tgAuth = useTelegramAuth();
   const [user, setUser] = useState<UserData | null>(null);
   const [editing, setEditing] = useState(false);
   const [tab, setTab] = useState("startups");
@@ -81,9 +83,26 @@ export default function App() {
   const handleBackFromStartup = useCallback(() => setSelectedStartup(null), []);
   const handleBackFromInvestor = useCallback(() => setSelectedInvestor(null), []);
   const handleCloseContact = useCallback(() => setContactTarget(null), []);
+  const handleTabChange = useCallback((key: string) => {
+    setTab(key);
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Loading Telegram auth
+  if (tgAuth.loading) return <LoadingFallback />;
 
   // Onboarding / editing
-  if (editing || !user) return <Onboarding onComplete={(userData: UserData) => { setUser(userData); setEditing(false); }} />;
+  if (editing || !user) {
+    const tgName = tgAuth.user
+      ? `${tgAuth.user.firstName}${tgAuth.user.lastName ? ` ${tgAuth.user.lastName}` : ""}`
+      : undefined;
+    return (
+      <Onboarding
+        defaultName={tgName}
+        onComplete={(userData: UserData) => { setUser(userData); setEditing(false); }}
+      />
+    );
+  }
 
   // Startup Detail
   if (selectedStartup)
@@ -164,7 +183,7 @@ export default function App() {
       </main>
 
       {/* Bottom Navigation */}
-      <BottomNav tabs={TABS} activeTab={tab} onTabChange={setTab} />
+      <BottomNav tabs={TABS} activeTab={tab} onTabChange={handleTabChange} />
     </div>
   );
 }

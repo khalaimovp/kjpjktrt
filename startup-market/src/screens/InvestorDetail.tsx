@@ -30,7 +30,7 @@ export default function InvestorDetail({ investor, onBack }: InvestorDetailProps
         <section className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 overflow-hidden animate-slide-up stagger-1">
           {/* Aurora blobs */}
           <div className="absolute w-40 h-40 rounded-full bg-indigo-500/10 blur-[60px] -top-10 -right-10 pointer-events-none" />
-          <div className="absolute w-32 h-32 rounded-full bg-cyan-500/8 blur-[50px] -bottom-8 -left-8 pointer-events-none" />
+          <div className="absolute w-32 h-32 rounded-full bg-cyan-500/10 blur-[50px] -bottom-8 -left-8 pointer-events-none" />
 
           <div className="relative flex flex-col items-center text-center">
             {/* Avatar with gradient ring */}

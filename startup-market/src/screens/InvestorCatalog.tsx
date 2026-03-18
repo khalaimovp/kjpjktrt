@@ -136,7 +136,7 @@ export default function InvestorCatalog({
   }), [investors, search]);
 
   return (
-    <div className="pb-24">
+    <div className="">
       {/* -------- Search Bar -------- */}
       <div className="px-4 pt-4 pb-3">
         <div className="relative">
@@ -144,7 +144,7 @@ export default function InvestorCatalog({
             <SearchIcon />
           </div>
           <input
-            type="text"
+            type="search"
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
             placeholder="Поиск инвесторов..."
